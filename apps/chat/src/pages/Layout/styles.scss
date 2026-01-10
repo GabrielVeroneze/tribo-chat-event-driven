@@ -1,0 +1,28 @@
+@use 'config/variables' as *;
+
+.container {
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    height: 100%;
+    padding: 80px;
+    width: 100%;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    @media (max-width: 550px) {
+        padding: 5px;
+    }
+}
+
+.content {
+    background-color: $cinza-sidebars;
+    border-radius: 8px;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+}
