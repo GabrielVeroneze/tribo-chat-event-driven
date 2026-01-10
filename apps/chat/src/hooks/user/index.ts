@@ -8,7 +8,7 @@ type CheckLoginCallback = (isLogged: boolean) => void
 const useUser = () => {
     const { data, setData } = useContext(userContext)
 
-    function login(user: User) {
+    const login = (user: User) => {
         const newUser = { ...user, isLogged: true }
         localStorage.setItem('user', JSON.stringify(newUser))
         setData({ ...user, isLogged: true })
@@ -42,7 +42,7 @@ const useUser = () => {
         [data?.id, setData],
     )
 
-    function logout() {
+    const logout = () => {
         localStorage.removeItem('user')
         setData(null)
     }

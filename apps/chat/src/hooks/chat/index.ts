@@ -15,7 +15,7 @@ const useChat = () => {
         return () => document.removeEventListener('keydown', handler)
     }, [setData])
 
-    function selectChat(novaConversa: UserChat) {
+    const selectChat = (novaConversa: UserChat) => {
         setData(novaConversa)
     }
 

@@ -19,11 +19,11 @@ const Display = () => {
         setMessages(conversa?.messages)
     }, [conversa?.messages])
 
-    function verDetalhes() {
+    const verDetalhes = () => {
         alert('Esta função ainda não existe, sinta-se à vontade para criar!')
     }
 
-    function sendMessage() {
+    const sendMessage = () => {
         if (!user || !conversa || !newMessageText.trim()) return
 
         const otherUserId = conversa.participants.find(

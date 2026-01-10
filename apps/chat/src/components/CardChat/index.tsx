@@ -20,7 +20,7 @@ const CardChat = ({
 }: CardChatProps) => {
     const text = messages[messages.length - 1]?.text
 
-    function selecionar() {
+    const selecionar = () => {
         onClick?.({
             name,
             date,

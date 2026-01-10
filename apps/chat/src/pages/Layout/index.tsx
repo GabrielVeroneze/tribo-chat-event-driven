@@ -8,7 +8,7 @@ const Layout = () => {
     const { logout, checkLogin } = useUser()
     const navigate = useNavigate()
 
-    function redirectHome() {
+    const redirectHome = () => {
         navigate('/')
     }
 
