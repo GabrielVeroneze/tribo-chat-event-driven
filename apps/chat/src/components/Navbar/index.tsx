@@ -1,13 +1,23 @@
+import { useNavigate } from 'react-router'
+import { useDispatch } from 'react-redux'
 import { MdOutlineChat } from 'react-icons/md'
 import { FiLogOut } from 'react-icons/fi'
+import { logout } from '@/store/user/userThunks'
+import type { AppDispatch } from '@/store'
 import logo from '@/assets/logo.png'
 
-interface NavBarProps {
-    redirectHome: () => void
-    logout: () => void
-}
+const Navbar = () => {
+    const dispatch = useDispatch<AppDispatch>()
+    const navigate = useNavigate()
 
-const Navbar = ({ redirectHome, logout }: NavBarProps) => {
+    const redirectHome = () => {
+        navigate('/')
+    }
+
+    const handleLogout = () => {
+        dispatch(logout())
+    }
+
     return (
         <nav className="navbar">
             <div className="navbar-list">
@@ -19,7 +29,7 @@ const Navbar = ({ redirectHome, logout }: NavBarProps) => {
                     <span>Chat</span>
                 </button>
             </div>
-            <div className="navbar-list-item" onClick={logout}>
+            <div className="navbar-list-item" onClick={handleLogout}>
                 <FiLogOut size={20} />
                 Logout
             </div>
