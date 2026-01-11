@@ -1,51 +1,36 @@
+import { useDispatch } from 'react-redux'
+import { selectChat } from '@/store/chat/chatSlice'
 import type { UserChat } from '@/types/UserChat'
-import type { Message } from '@/types/Message'
 import Avatar from '@/components/Avatar'
 import './styles.scss'
 
-interface CardChatProps extends UserChat {
-    date?: string
-    messages?: Message[]
-    onClick?: (chat: CardChatProps) => void
+interface CardChatProps {
+    chat: UserChat
 }
 
-const CardChat = ({
-    name,
-    date,
-    unreadMessages,
-    messages = [],
-    image,
-    onClick,
-    ...props
-}: CardChatProps) => {
-    const text = messages[messages.length - 1]?.text
+const CardChat = ({ chat }: CardChatProps) => {
+    const dispatch = useDispatch()
+
+    const text = chat.messages?.[chat.messages.length - 1].text
 
     const selecionar = () => {
-        onClick?.({
-            name,
-            date,
-            unreadMessages,
-            messages,
-            image,
-            ...props,
-        })
+        dispatch(selectChat(chat))
     }
 
     return (
         <div className="cardChat-container" onClick={selecionar}>
             <div className="cardChat-container-image">
-                <Avatar image={image} />
+                <Avatar image={chat.image} />
             </div>
             <div className="cardChat-container-list">
                 <div className="cardChat-content">
-                    <h4 className="cardChat-content-nome">{name}</h4>
+                    <h4 className="cardChat-content-nome">{chat.name}</h4>
                     <div className="cardChat-content-mensagem">{text}</div>
                 </div>
                 <div className="cardChat-metadata">
-                    <span className="cardChat-metadata-data">{date}</span>
-                    {!!unreadMessages && (
+                    {!!chat.unreadMessages && (
                         <div className="cardChat-metadata-mensagens-nao-lidas">
-                            {unreadMessages}
+                            {chat.unreadMessages}
                         </div>
                     )}
                 </div>
