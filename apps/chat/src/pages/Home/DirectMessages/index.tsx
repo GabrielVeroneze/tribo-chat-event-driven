@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { matchFilter } from '@/utils/matchFilter'
-import useChat from '@/hooks/chat'
-import useUser from '@/hooks/user'
+import type { RootState } from '@/store'
 import CardChat from '@/components/CardChat'
 
 interface DirectMessagesProps {
@@ -9,10 +9,8 @@ interface DirectMessagesProps {
 }
 
 const DirectMessages = ({ filter }: DirectMessagesProps) => {
-    const { data } = useUser()
-    const { selectChat } = useChat()
-
-    const chats = data?.chats
+    const user = useSelector((state: RootState) => state.user.data)
+    const chats = user?.chats
 
     const [messagesWithFilter, setMessagesWithFilter] = useState(chats)
 
@@ -25,7 +23,7 @@ const DirectMessages = ({ filter }: DirectMessagesProps) => {
             <h3 className="home-chat-mensagens-title">Mensagens Diretas</h3>
             <div className="home-chat-mensagens-list">
                 {messagesWithFilter?.map((message, index) => (
-                    <CardChat onClick={selectChat} key={index} {...message} />
+                    <CardChat key={index} chat={message} />
                 ))}
             </div>
         </div>
