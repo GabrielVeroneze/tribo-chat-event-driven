@@ -1,13 +1,15 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
+import { useDispatch } from 'react-redux'
 import { PiSignOut } from 'react-icons/pi'
+import { login } from '@/store/user/userThunks'
+import type { AppDispatch } from '@/store'
 import fetch from '@/config/fetchInstance'
-import useUser from '@/hooks/user'
 import Form from '@/components/Form'
 import Input from '@/components/Input'
 
 const Login = () => {
-    const { login } = useUser()
+    const dispatch = useDispatch<AppDispatch>()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -21,7 +23,7 @@ const Login = () => {
         return fetch
             .post('/api/users/login', data)
             .then((response) => {
-                login(response.data)
+                dispatch(login(response.data))
                 return navigate('/')
             })
             .catch(() => alert('email ou senha incorretos!'))
