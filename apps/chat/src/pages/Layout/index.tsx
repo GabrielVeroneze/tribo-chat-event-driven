@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router'
 import { useDispatch } from 'react-redux'
 import { checkLogin } from '@/store/user/userThunks'
+import { socket } from '@/config/socket'
 import { useSyncUnreadMessages } from '@/hooks/useSyncUnreadMessages'
 import type { AppDispatch } from '@/store'
 import Navbar from '@/components/Navbar'
@@ -12,6 +13,18 @@ const Layout = () => {
     const navigate = useNavigate()
 
     useSyncUnreadMessages()
+
+    useEffect(() => {
+        socket.connect()
+
+        socket.on('nova mensagem', (id) => {
+            console.log('Nova mensagem!', id)
+        })
+
+        return () => {
+            socket.disconnect()
+        }
+    }, [])
 
     useEffect(() => {
         dispatch(checkLogin())
