@@ -1,32 +1,33 @@
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { IoSend } from 'react-icons/io5'
 import { isEnter } from '@/utils/checkKeys'
+import type { RootState } from '@/store'
+import type { SendMessagePayload } from '@/types/SendMessagePayload'
 import fetch from '@/config/fetchInstance'
-import useConversa from '@/hooks/chat'
-import useUser from '@/hooks/user'
 import Avatar from '@/components/Avatar'
 import displayEmpty from '@/assets/display-empty.png'
 import './styles.scss'
-import type { SendMessagePayload } from '@/types/SendMessagePayload'
 
 const Display = () => {
-    const { data: conversa } = useConversa()
-    const { data: user } = useUser()
+    const chat = useSelector((state: RootState) => state.chat.data)
+    const user = useSelector((state: RootState) => state.user.data)
+
     const [newMessageText, setNewMessageText] = useState('')
-    const [messages, setMessages] = useState(conversa?.messages)
+    const [messages, setMessages] = useState(chat?.messages)
 
     useEffect(() => {
-        setMessages(conversa?.messages)
-    }, [conversa?.messages])
+        setMessages(chat?.messages)
+    }, [chat?.messages])
 
     const verDetalhes = () => {
         alert('Esta função ainda não existe, sinta-se à vontade para criar!')
     }
 
     const sendMessage = () => {
-        if (!user || !conversa || !newMessageText.trim()) return
+        if (!user || !chat || !newMessageText.trim()) return
 
-        const otherUserId = conversa.participants.find(
+        const otherUserId = chat.participants.find(
             (participantId) => participantId !== user.id,
         )
 
@@ -45,12 +46,12 @@ const Display = () => {
 
         setMessages((oldMessages = []) => [...oldMessages, newMessage])
 
-        fetch.post(`/api/chats/${conversa?.id}/messages`, newMessage)
+        fetch.post(`/api/chats/${chat?.id}/messages`, newMessage)
 
         setNewMessageText('')
     }
 
-    if (!conversa) {
+    if (!chat) {
         return (
             <div className="display">
                 <div className="display-empty">
@@ -68,9 +69,9 @@ const Display = () => {
         <div className="display">
             <div className="display-header">
                 <div className="display-header-content">
-                    <Avatar image={conversa.image} />
+                    <Avatar image={chat.image} />
                     <div className="display-header-content-nome">
-                        <h2>{conversa.name}</h2>
+                        <h2>{chat.name}</h2>
                         <span onClick={verDetalhes}>
                             Clique para ver detalhes do contato
                         </span>
