@@ -1,24 +1,31 @@
-import { Outlet, useNavigate } from 'react-router'
 import { useEffect } from 'react'
-import useUser from '@/hooks/user'
+import { Outlet, useNavigate } from 'react-router'
+import { useDispatch } from 'react-redux'
+import { checkLogin } from '@/store/user/userThunks'
+import { useSyncUnreadMessages } from '@/hooks/useSyncUnreadMessages'
+import type { AppDispatch } from '@/store'
 import Navbar from '@/components/Navbar'
 import './styles.scss'
 
 const Layout = () => {
-    const { logout, checkLogin } = useUser()
+    const dispatch = useDispatch<AppDispatch>()
     const navigate = useNavigate()
 
-    const redirectHome = () => {
-        navigate('/')
-    }
+    useSyncUnreadMessages()
 
     useEffect(() => {
-        checkLogin((isLogged) => !isLogged && navigate('/login'))
-    }, [checkLogin, navigate])
+        dispatch(checkLogin())
+            .unwrap()
+            .then((isLogged) => {
+                if (!isLogged) {
+                    navigate('/login')
+                }
+            })
+    }, [dispatch, navigate])
 
     return (
         <main className="container">
-            <Navbar logout={logout} redirectHome={redirectHome} />
+            <Navbar />
             <div className="content">
                 <Outlet />
             </div>
