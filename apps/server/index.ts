@@ -1,8 +1,8 @@
 import jsonServer from 'json-server'
-import usersRouter from './routes/users.js'
-import chatsRouter from './routes/chats.js'
-import { server, app } from './config/instances.js'
-import './socket/index.js'
+import usersRouter from './routes/users.ts'
+import chatsRouter from './routes/chats.ts'
+import { server, app } from './config/instances.ts'
+import './socket/index.ts'
 
 const port = 8080
 

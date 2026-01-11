@@ -1,4 +1,4 @@
-import { writeFile } from '../utils/file.js'
+import { writeFile } from '../utils/file.ts'
 import db from '../db.json' with { type: 'json' }
 import type { Socket } from 'socket.io'
 

@@ -1,5 +1,5 @@
-import { io } from '../config/instances.js'
-import UserController from '../controllers/userController.js'
+import { io } from '../config/instances.ts'
+import UserController from '../controllers/userController.ts'
 
 io.on('connection', (socket) => {
     const userController = UserController()

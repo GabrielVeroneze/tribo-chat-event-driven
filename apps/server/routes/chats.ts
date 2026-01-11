@@ -1,7 +1,7 @@
 import express from 'express'
 import fs from 'node:fs'
 import db from '../db.json' with { type: 'json' }
-import { io } from '../config/instances.js'
+import { io } from '../config/instances.ts'
 
 const chatsRouter = express.Router()
 
