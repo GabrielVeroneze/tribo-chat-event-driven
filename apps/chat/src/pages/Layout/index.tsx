@@ -33,7 +33,7 @@ const Layout = () => {
         socket.on('new-message', (payload) => {
             dispatch(
                 addMessageToChat({
-                    senderId: payload.id,
+                    chatId: payload.chatId,
                     message: payload.newMessage,
                 }),
             )
