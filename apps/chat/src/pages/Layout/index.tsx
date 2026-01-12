@@ -17,8 +17,8 @@ const Layout = () => {
     useEffect(() => {
         socket.connect()
 
-        socket.on('nova mensagem', (id) => {
-            console.log('Nova mensagem!', id)
+        socket.on('new-message', (data) => {
+            console.log('New message!', data)
         })
 
         return () => {
