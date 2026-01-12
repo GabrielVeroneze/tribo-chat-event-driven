@@ -21,6 +21,12 @@ io.on('connection', (socket) => {
         })
     })
 
+    socket.on('join-rooms', (chatIds) => {
+        if (chatIds) {
+            chatIds.forEach((chatId) => socket.join(`chat${chatId}`))
+        }
+    })
+
     socket.on('add-user-id', (id) => {
         userController.logonUser(id, socket, () => {
             io.emit('user-logged', id)
