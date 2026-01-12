@@ -7,7 +7,7 @@ interface UserState {
 }
 
 interface AddMessagePayload {
-    senderId: number
+    chatId: number
     message: Message
 }
 
@@ -44,10 +44,10 @@ const userSlice = createSlice({
         addMessageToChat(state, action: PayloadAction<AddMessagePayload>) {
             if (!state.data) return
 
-            const { senderId, message } = action.payload
+            const { chatId, message } = action.payload
 
             state.data.chats.forEach((chat) => {
-                if (!chat.participants.includes(senderId)) return
+                if (chat.id !== chatId) return
 
                 if (!chat.messages) {
                     chat.messages = [message]
