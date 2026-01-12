@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react'
 import { Outlet, useNavigate } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
+import { addMessageToChat } from '@/store/user/userSlice'
 import { checkLogin } from '@/store/user/userThunks'
 import { socket } from '@/config/socket'
 import { useSyncUnreadMessages } from '@/hooks/useSyncUnreadMessages'
@@ -29,14 +30,19 @@ const Layout = () => {
     useEffect(() => {
         socket.connect()
 
-        socket.on('new-message', (data) => {
-            console.log('New message!', data)
+        socket.on('new-message', (payload) => {
+            dispatch(
+                addMessageToChat({
+                    senderId: payload.id,
+                    message: payload.newMessage,
+                }),
+            )
         })
 
         return () => {
             socket.disconnect()
         }
-    }, [])
+    }, [dispatch])
 
     useEffect(() => {
         dispatch(checkLogin())
