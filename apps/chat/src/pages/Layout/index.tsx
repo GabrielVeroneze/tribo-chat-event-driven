@@ -1,18 +1,30 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Outlet, useNavigate } from 'react-router'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { checkLogin } from '@/store/user/userThunks'
 import { socket } from '@/config/socket'
 import { useSyncUnreadMessages } from '@/hooks/useSyncUnreadMessages'
-import type { AppDispatch } from '@/store'
+import type { AppDispatch, RootState } from '@/store'
 import Navbar from '@/components/Navbar'
 import './styles.scss'
 
 const Layout = () => {
     const dispatch = useDispatch<AppDispatch>()
     const navigate = useNavigate()
+    const user = useSelector((state: RootState) => state.user.data)
+
+    const chatIds = useMemo(
+        () => user?.chats.map((chat) => chat.id),
+        [user?.chats],
+    )
 
     useSyncUnreadMessages()
+
+    useEffect(() => {
+        if (chatIds) {
+            socket.emit('join-rooms', chatIds)
+        }
+    }, [chatIds])
 
     useEffect(() => {
         socket.connect()
