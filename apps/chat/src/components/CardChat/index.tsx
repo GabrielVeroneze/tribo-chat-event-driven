@@ -20,7 +20,7 @@ const CardChat = ({ chat }: CardChatProps) => {
     return (
         <div className="cardChat-container" onClick={selecionar}>
             <div className="cardChat-container-image">
-                <Avatar image={chat.image} />
+                <Avatar image={chat.image} isLogged={chat.isLogged} />
             </div>
             <div className="cardChat-container-list">
                 <div className="cardChat-content">
