@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
+import { io } from '../config/instances.ts'
 import { writeFile } from '../utils/file.ts'
 import express from 'express'
 import db from '../db.json' with { type: 'json' }
@@ -7,7 +8,7 @@ function getUsuarioById(id: number | string) {
     const newDb = { ...db }
     const { users, chats } = newDb
     const userIndex = users.findIndex((userDb) => userDb.id === Number(id))
-    const user = { ...users[userIndex] }
+    const user = users[userIndex]
 
     if (user) {
         const otherUsers = [...users.filter((userDb) => userDb.id !== user.id)]
@@ -65,6 +66,8 @@ function getUsuarioById(id: number | string) {
             }
         })
 
+        user.isLogged = true
+
         writeFile(newDb)
         return user
     }
@@ -89,6 +92,7 @@ usersRouter.post('/login', (req, res) => {
     )
     if (user) {
         const loggeduser = getUsuarioById(user.id)
+        io.emit('new-login', user.id)
         res.status(200).json({ ...user, ...loggeduser })
     }
     res.status(401).json()
