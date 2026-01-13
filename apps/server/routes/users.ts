@@ -6,11 +6,16 @@ function getUsuarioById(id: number | string) {
     const { users, chats } = newDb
     const userIndex = users.findIndex((userDb) => userDb.id === Number(id))
     const user = { ...users[userIndex] }
+    let nextChatId = chats[chats.length - 1].id + 1
 
     if (user) {
         const otherUsers = [...users.filter((userDb) => userDb.id !== user.id)]
 
         otherUsers?.map((userDb) => {
+            const otherUserIndex = users.findIndex(
+                (user) => user.id === userDb.id,
+            )
+
             const userChatIndex = user.chats?.findIndex((chatDb) =>
                 chatDb.participants?.includes(userDb.id),
             )
@@ -30,6 +35,7 @@ function getUsuarioById(id: number | string) {
                 participants: [user.id, userDb.id],
                 type: 'chat',
                 unreadMessages: 0,
+                id: nextChatId,
                 ...userChat,
                 ...completeChat,
             }
@@ -41,6 +47,20 @@ function getUsuarioById(id: number | string) {
                 user.chats[userChatIndex] = newChat
             } else {
                 user.chats.push(newChat)
+                chats.push({
+                    id: nextChatId,
+                    type: 'chat',
+                    participants: [user.id, userDb.id],
+                    messages: [],
+                })
+                users[otherUserIndex].chats.push({
+                    name: user.name,
+                    image: user.image,
+                    participants: [user.id, userDb.id],
+                    type: 'chat',
+                    unreadMessages: 0,
+                    id: nextChatId,
+                })
             }
         })
 
