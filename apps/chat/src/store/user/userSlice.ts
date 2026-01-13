@@ -15,6 +15,11 @@ interface clearMessagesPayload {
     chatId: number
 }
 
+interface UpdateChatStatusPayload {
+    userId: number
+    status: boolean
+}
+
 const initialState: UserState = {
     data: null,
 }
@@ -58,10 +63,29 @@ const userSlice = createSlice({
                 chat.unreadMessages += 1
             })
         },
+        updateChatStatus(
+            state,
+            action: PayloadAction<UpdateChatStatusPayload>,
+        ) {
+            if (!state.data) return
+
+            const { userId, status } = action.payload
+
+            state.data.chats.forEach((chat) => {
+                if (!chat.participants.includes(userId)) return
+
+                chat.isLogged = status
+            })
+        },
     },
 })
 
-export const { setUser, clearUser, clearUnreadMessages, addMessageToChat } =
-    userSlice.actions
+export const {
+    setUser,
+    clearUser,
+    clearUnreadMessages,
+    addMessageToChat,
+    updateChatStatus,
+} = userSlice.actions
 
 export default userSlice.reducer
