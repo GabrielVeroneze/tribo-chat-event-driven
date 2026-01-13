@@ -11,7 +11,7 @@ interface CardChatProps {
 const CardChat = ({ chat }: CardChatProps) => {
     const dispatch = useDispatch()
 
-    const text = chat.messages?.[chat.messages.length - 1].text
+    const text = chat.messages?.[chat.messages.length - 1]?.text
 
     const selecionar = () => {
         dispatch(selectChat(chat))
