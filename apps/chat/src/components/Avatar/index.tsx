@@ -3,11 +3,17 @@ import './styles.scss'
 
 interface AvatarProps {
     image: string
+    isLogged: boolean
 }
 
-const Avatar = ({ image }: AvatarProps) => {
+const Avatar = ({ image, isLogged }: AvatarProps) => {
     return (
-        <div className="avatar-container">
+        <div
+            className={`
+                avatar-container
+                avatar-container--${isLogged ? 'online' : 'offline'}
+            `}
+        >
             {image ? (
                 <div className="avatar-image">
                     <img src={image} alt="avatar" />
