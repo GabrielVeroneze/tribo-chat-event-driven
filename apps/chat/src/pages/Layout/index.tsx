@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react'
 import { Outlet, useNavigate } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
-import { addMessageToChat } from '@/store/user/userSlice'
+import { addMessageToChat, updateChatStatus } from '@/store/user/userSlice'
 import { checkLogin } from '@/store/user/userThunks'
 import { socket } from '@/config/socket'
 import { useSyncUnreadMessages } from '@/hooks/useSyncUnreadMessages'
@@ -59,7 +59,9 @@ const Layout = () => {
         if (user?.id) {
             socket.on('new-login', (id) => {
                 if (id !== user.id) {
-                    console.log('novo id!', id)
+                    dispatch(
+                        updateChatStatus({ userId: user.id, status: true }),
+                    )
                 }
             })
         }
@@ -67,7 +69,7 @@ const Layout = () => {
         return () => {
             socket.off('new-login')
         }
-    }, [user?.id])
+    }, [user?.id, dispatch])
 
     return (
         <main className="container">
