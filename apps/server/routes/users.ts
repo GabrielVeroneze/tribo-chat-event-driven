@@ -1,3 +1,4 @@
+import { writeFile } from '../utils/file.ts'
 import express from 'express'
 import db from '../db.json' with { type: 'json' }
 
@@ -64,6 +65,7 @@ function getUsuarioById(id: number | string) {
             }
         })
 
+        writeFile(newDb)
         return user
     }
     return null
