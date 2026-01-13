@@ -7,5 +7,6 @@ export interface UserChat {
     type: 'chat'
     participants: number[]
     unreadMessages: number
+    isLogged: boolean
     messages?: Message[]
 }
