@@ -5,6 +5,7 @@ import { FiLogOut } from 'react-icons/fi'
 import { logout } from '@/store/user/userThunks'
 import type { AppDispatch } from '@/store'
 import logo from '@/assets/logo.png'
+import './styles.scss'
 
 const Navbar = () => {
     const dispatch = useDispatch<AppDispatch>()
