@@ -69,7 +69,7 @@ const Display = () => {
         <div className="display">
             <div className="display-header">
                 <div className="display-header-content">
-                    <Avatar image={chat.image} />
+                    <Avatar image={chat.image} isLogged={chat.isLogged} />
                     <div className="display-header-content-nome">
                         <h2>{chat.name}</h2>
                         <span onClick={verDetalhes}>
