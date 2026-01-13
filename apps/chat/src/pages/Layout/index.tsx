@@ -40,6 +40,7 @@ const Layout = () => {
         })
 
         return () => {
+            socket.off('new-message')
             socket.disconnect()
         }
     }, [dispatch])
@@ -53,6 +54,20 @@ const Layout = () => {
                 }
             })
     }, [dispatch, navigate])
+
+    useEffect(() => {
+        if (user?.id) {
+            socket.on('new-login', (id) => {
+                if (id !== user.id) {
+                    console.log('novo id!', id)
+                }
+            })
+        }
+
+        return () => {
+            socket.off('new-login')
+        }
+    }, [user?.id])
 
     return (
         <main className="container">
