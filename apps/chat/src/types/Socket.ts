@@ -8,6 +8,7 @@ export interface ServerToClientEvents {
         newMessage: Message
     }) => void
     'read-message': (user: User) => void
+    'new-login': (userId: User['id']) => void
 }
 
 export interface ClientToServerEvents {
