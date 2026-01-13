@@ -1,3 +1,5 @@
+@use '@/styles/variables' as *;
+
 .navbar {
     background-color: $cinza-sidebars;
     border-radius: 8px;
