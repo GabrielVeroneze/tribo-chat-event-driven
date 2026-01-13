@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import { writeFile } from '../utils/file.ts'
 import express from 'express'
 import db from '../db.json' with { type: 'json' }
@@ -7,7 +8,6 @@ function getUsuarioById(id: number | string) {
     const { users, chats } = newDb
     const userIndex = users.findIndex((userDb) => userDb.id === Number(id))
     const user = { ...users[userIndex] }
-    let nextChatId = chats[chats.length - 1].id + 1
 
     if (user) {
         const otherUsers = [...users.filter((userDb) => userDb.id !== user.id)]
@@ -36,7 +36,7 @@ function getUsuarioById(id: number | string) {
                 participants: [user.id, userDb.id],
                 type: 'chat',
                 unreadMessages: 0,
-                id: nextChatId,
+                id: uuidv4(),
                 ...userChat,
                 ...completeChat,
             }
@@ -49,7 +49,7 @@ function getUsuarioById(id: number | string) {
             } else {
                 user.chats.push(newChat)
                 chats.push({
-                    id: nextChatId,
+                    id: newChat.id,
                     type: 'chat',
                     participants: [user.id, userDb.id],
                     messages: [],
@@ -60,7 +60,7 @@ function getUsuarioById(id: number | string) {
                     participants: [user.id, userDb.id],
                     type: 'chat',
                     unreadMessages: 0,
-                    id: nextChatId,
+                    id: newChat.id,
                 })
             }
         })
