@@ -10,6 +10,9 @@ export const login = createAsyncThunk(
     'user/login',
     async (user: User, { dispatch }) => {
         const newUser = { ...user, isLogged: true }
+
+        socket.emit('save-id', newUser.id)
+
         localStorage.setItem('user', JSON.stringify(newUser))
         dispatch(setUser(newUser))
     },
