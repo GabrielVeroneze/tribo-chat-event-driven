@@ -7,6 +7,7 @@ import { socket } from '@/config/socket'
 import { useAuthGuard } from '@/hooks/useAuthGuard'
 import { useSyncUnreadMessages } from '@/hooks/useSyncUnreadMessages'
 import type { AppDispatch, RootState } from '@/store'
+import { useChatRooms } from '@/hooks/useChatRooms'
 import Navbar from '@/components/Navbar'
 import './styles.scss'
 
@@ -22,12 +23,6 @@ const Layout = () => {
 
     useAuthGuard()
     useSyncUnreadMessages()
-
-    useEffect(() => {
-        if (chatIds) {
-            socket.emit('join-rooms', chatIds)
-        }
-    }, [chatIds])
 
     useEffect(() => {
         socket.connect()
@@ -65,6 +60,7 @@ const Layout = () => {
             socket.off('user-logoff')
         }
     }, [user?.id, dispatch])
+    useChatRooms(user)
 
     return (
         <main className="container">
