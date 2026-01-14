@@ -15,4 +15,5 @@ export interface ServerToClientEvents {
 export interface ClientToServerEvents {
     'join-rooms': (chatIds: number[]) => void
     logoff: (userId: User['id']) => void
+    'save-id': (userId: User['id']) => void
 }
