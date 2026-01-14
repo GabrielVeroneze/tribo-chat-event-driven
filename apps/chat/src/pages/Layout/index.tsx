@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addMessageToChat, updateChatStatus } from '@/store/user/userSlice'
 import { checkLogin } from '@/store/user/userThunks'
 import { socket } from '@/config/socket'
+import { useAuthGuard } from '@/hooks/useAuthGuard'
 import { useSyncUnreadMessages } from '@/hooks/useSyncUnreadMessages'
 import type { AppDispatch, RootState } from '@/store'
 import Navbar from '@/components/Navbar'
@@ -19,6 +20,7 @@ const Layout = () => {
         [user?.chats],
     )
 
+    useAuthGuard()
     useSyncUnreadMessages()
 
     useEffect(() => {
@@ -44,16 +46,6 @@ const Layout = () => {
             socket.disconnect()
         }
     }, [dispatch])
-
-    useEffect(() => {
-        dispatch(checkLogin())
-            .unwrap()
-            .then((isLogged) => {
-                if (!isLogged) {
-                    navigate('/login')
-                }
-            })
-    }, [dispatch, navigate])
 
     useEffect(() => {
         if (user?.id) {
