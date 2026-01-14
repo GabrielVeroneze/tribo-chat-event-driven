@@ -1,14 +1,15 @@
 import { io } from '../config/instances.ts'
 import UserController from '../controllers/userController.ts'
 
+const sockets = {}
+
 io.on('connection', (socket) => {
     const userController = UserController()
 
-    io.emit('nova mensagem', socket.id)
-
     socket.on('disconnect', () => {
         io.emit('user disconnected')
-        const id = null
+
+        const id = sockets[socket.id]
 
         userController.logoffUser(id, () => {
             io.emit('user-logoff', id)
@@ -31,5 +32,9 @@ io.on('connection', (socket) => {
         userController.logonUser(id, socket, () => {
             io.emit('user-logged', id)
         })
+    })
+
+    socket.on('save-id', (id) => {
+        sockets[socket.id] = id
     })
 })
