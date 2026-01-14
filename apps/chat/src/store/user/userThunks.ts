@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { socket } from '@/config/socket'
 import { setUser, clearUser } from './userSlice'
 import type { User } from '@/types/User'
 import fetch from '@/config/fetchInstance'
@@ -16,7 +17,11 @@ export const login = createAsyncThunk(
 
 export const logout = createAsyncThunk(
     'user/logout',
-    async (_, { dispatch }) => {
+    async (_, { dispatch, getState }) => {
+        const state = getState() as { user: { data: User } }
+
+        socket.emit('logoff', state.user.data.id)
+
         localStorage.removeItem('user')
         dispatch(clearUser())
     },
