@@ -1,11 +1,12 @@
 {
   "users": [
     {
+      "id": 1,
       "name": "Luiz",
       "email": "luiz@email.com",
-      "isLogged": false,
       "password": "123",
-      "id": 1,
+      "image": "https://avatars.githubusercontent.com/u/94445061",
+      "isLogged": false,
       "chats": [
         {
           "name": "Marcia",
@@ -30,16 +31,15 @@
           "id": "68274d31-9a07-43f5-91df-9548663f0ceb",
           "messages": []
         }
-      ],
-      "image": "https://avatars.githubusercontent.com/u/94445061"
+      ]
     },
     {
+      "id": 2,
       "name": "Marcia",
       "email": "marcia@email.com",
-      "isLogged": false,
       "password": "123",
-      "id": 2,
       "image": "https://avatars.githubusercontent.com/u/38763801",
+      "isLogged": false,
       "chats": [
         {
           "name": "Luiz",
@@ -67,10 +67,12 @@
       ]
     },
     {
+      "id": 3,
       "name": "João",
       "email": "joao@email.com",
       "password": "123",
       "imagem": "https://avatars.githubusercontent.com/u/53175726",
+      "isLogged": false,
       "chats": [
         {
           "name": "Luiz",
@@ -92,10 +94,10 @@
           ],
           "type": "chat",
           "unreadMessages": 0,
-          "id": "55649b82-5f9a-4b13-9fc2-e03b18f868d8"
+          "id": "55649b82-5f9a-4b13-9fc2-e03b18f868d8",
+          "messages": []
         }
-      ],
-      "id": 3
+      ]
     }
   ],
   "chats": [
