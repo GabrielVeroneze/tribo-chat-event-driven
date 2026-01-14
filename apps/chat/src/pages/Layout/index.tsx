@@ -59,15 +59,18 @@ const Layout = () => {
         if (user?.id) {
             socket.on('new-login', (id) => {
                 if (id !== user.id) {
-                    dispatch(
-                        updateChatStatus({ userId: user.id, status: true }),
-                    )
+                    dispatch(updateChatStatus({ userId: id, status: true }))
                 }
+            })
+
+            socket.on('user-logoff', (id) => {
+                dispatch(updateChatStatus({ userId: id, status: false }))
             })
         }
 
         return () => {
             socket.off('new-login')
+            socket.off('user-logoff')
         }
     }, [user?.id, dispatch])
 
